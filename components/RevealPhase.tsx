@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Player } from '../types';
 import { Eye, EyeOff, User, ArrowRight, ShieldAlert } from 'lucide-react';
+import { useTranslation } from '../i18n';
 
 interface RevealPhaseProps {
   players: Player[];
@@ -12,6 +13,7 @@ interface RevealPhaseProps {
 const RevealPhase: React.FC<RevealPhaseProps> = ({ players, theme, onFinish }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isRevealed, setIsRevealed] = useState(false);
+  const { t } = useTranslation();
 
   const currentPlayer = players[currentIndex];
   const isLastPlayer = currentIndex === players.length - 1;
@@ -29,9 +31,9 @@ const RevealPhase: React.FC<RevealPhaseProps> = ({ players, theme, onFinish }) =
     <div className="flex flex-col h-full p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="text-center mb-10">
         <span className="text-indigo-400 text-sm font-bold tracking-widest uppercase">
-          Passo {currentIndex + 1} de {players.length}
+          {t('reveal.stepOf', { current: currentIndex + 1, total: players.length })}
         </span>
-        <h2 className="text-2xl font-extrabold text-white mt-2">Quem está com o celular?</h2>
+        <h2 className="text-2xl font-extrabold text-white mt-2">{t('reveal.whoHasPhone')}</h2>
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center space-y-8">
@@ -45,29 +47,29 @@ const RevealPhase: React.FC<RevealPhaseProps> = ({ players, theme, onFinish }) =
         </div>
 
         <div className={`w-full p-8 rounded-3xl border-2 transition-all duration-300 min-h-[160px] flex flex-col items-center justify-center ${
-          isRevealed 
-            ? currentPlayer.isImpostor 
-              ? 'bg-red-500/10 border-red-500/50 shadow-lg shadow-red-900/10' 
+          isRevealed
+            ? currentPlayer.isImpostor
+              ? 'bg-red-500/10 border-red-500/50 shadow-lg shadow-red-900/10'
               : 'bg-emerald-500/10 border-emerald-500/50 shadow-lg shadow-emerald-900/10'
             : 'bg-slate-700/50 border-slate-600'
         }`}>
           {!isRevealed ? (
             <p className="text-slate-400 text-center font-medium">
-              Toque no botão abaixo para revelar o seu papel em segredo.
+              {t('reveal.tapToReveal')}
             </p>
           ) : (
             <div className="text-center animate-in zoom-in-95 duration-300">
               {currentPlayer.isImpostor ? (
                 <>
                   <ShieldAlert className="w-12 h-12 text-red-500 mx-auto mb-3" />
-                  <h3 className="text-red-500 text-2xl font-black uppercase tracking-tighter">IMPOSTOR</h3>
-                  <p className="text-red-300/80 text-sm mt-1">Ninguém pode descobrir!</p>
+                  <h3 className="text-red-500 text-2xl font-black uppercase tracking-tighter">{t('reveal.impostor')}</h3>
+                  <p className="text-red-300/80 text-sm mt-1">{t('reveal.impostorHint')}</p>
                 </>
               ) : (
                 <>
-                  <span className="text-emerald-500 text-xs font-black uppercase tracking-widest mb-1 block">O TEMA É</span>
+                  <span className="text-emerald-500 text-xs font-black uppercase tracking-widest mb-1 block">{t('reveal.themeIs')}</span>
                   <h3 className="text-emerald-400 text-4xl font-black tracking-tight drop-shadow-sm">{theme}</h3>
-                  <p className="text-emerald-300/80 text-sm mt-2">Tente descobrir o impostor!</p>
+                  <p className="text-emerald-300/80 text-sm mt-2">{t('reveal.teamHint')}</p>
                 </>
               )}
             </div>
@@ -82,21 +84,21 @@ const RevealPhase: React.FC<RevealPhaseProps> = ({ players, theme, onFinish }) =
             className="w-full flex items-center justify-center gap-2 bg-white text-slate-900 hover:bg-slate-100 py-4 rounded-2xl font-bold text-lg transition-all shadow-xl"
           >
             <Eye className="w-6 h-6" />
-            REVELAR TEMA
+            {t('reveal.revealButton')}
           </button>
         ) : (
           <button
             onClick={handleNext}
             className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-2xl font-bold text-lg transition-all shadow-xl shadow-indigo-900/20"
           >
-            {isLastPlayer ? 'COMEÇAR JOGO' : 'PRÓXIMO JOGADOR'}
+            {isLastPlayer ? t('reveal.startGame') : t('reveal.nextPlayer')}
             <ArrowRight className="w-6 h-6" />
           </button>
         )}
-        
+
         {isRevealed && (
           <p className="text-center text-slate-500 text-xs italic animate-pulse">
-            Esconda a tela antes de passar!
+            {t('reveal.hideScreen')}
           </p>
         )}
       </div>

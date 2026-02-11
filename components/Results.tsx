@@ -2,6 +2,7 @@
 import React from 'react';
 import { Winner, Player } from '../types';
 import { RefreshCcw, Home, Trophy, Frown, ShieldAlert } from 'lucide-react';
+import { useTranslation } from '../i18n';
 
 interface ResultsProps {
   winner: Winner;
@@ -14,6 +15,7 @@ interface ResultsProps {
 const Results: React.FC<ResultsProps> = ({ winner, players, theme, onReset, onPlayAgain }) => {
   const impostor = players.find(p => p.isImpostor);
   const isImpostorVictory = winner === 'IMPOSTOR';
+  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col h-full p-8 animate-in zoom-in-95 duration-500">
@@ -28,22 +30,22 @@ const Results: React.FC<ResultsProps> = ({ winner, players, theme, onReset, onPl
           <h2 className={`text-4xl font-black tracking-tighter uppercase ${
             isImpostorVictory ? 'text-red-500' : 'text-emerald-500'
           }`}>
-            Vítóra do {isImpostorVictory ? 'Impostor' : 'Time'}!
+            {isImpostorVictory ? t('results.impostorWins') : t('results.teamWins')}
           </h2>
           <p className="text-slate-400 font-medium italic">
-            {isImpostorVictory ? 'O infiltrado enganou a todos!' : 'O impostor foi desmascarado!'}
+            {isImpostorVictory ? t('results.impostorWinMsg') : t('results.teamWinMsg')}
           </p>
         </div>
 
         <div className="w-full grid grid-cols-1 gap-4 pt-4">
           <div className="bg-slate-700/50 border border-slate-700 rounded-3xl p-6 space-y-4">
             <div>
-              <span className="text-slate-500 text-xs font-bold uppercase tracking-widest block mb-1">O TEMA ERA</span>
+              <span className="text-slate-500 text-xs font-bold uppercase tracking-widest block mb-1">{t('results.themeWas')}</span>
               <p className="text-2xl font-black text-white">{theme}</p>
             </div>
-            
+
             <div className="pt-4 border-t border-slate-700/50">
-              <span className="text-slate-500 text-xs font-bold uppercase tracking-widest block mb-1">O IMPOSTOR ERA</span>
+              <span className="text-slate-500 text-xs font-bold uppercase tracking-widest block mb-1">{t('results.impostorWas')}</span>
               <div className="flex items-center justify-center gap-2">
                 <ShieldAlert className="w-5 h-5 text-red-400" />
                 <p className="text-2xl font-black text-red-400">{impostor?.name}</p>
@@ -59,14 +61,14 @@ const Results: React.FC<ResultsProps> = ({ winner, players, theme, onReset, onPl
           className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-2xl font-black text-lg shadow-xl shadow-indigo-900/20 transition-all hover:-translate-y-1"
         >
           <RefreshCcw className="w-6 h-6" />
-          JOGAR NOVAMENTE
+          {t('results.playAgain')}
         </button>
         <button
           onClick={onReset}
           className="w-full flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-300 py-3 rounded-2xl font-bold transition-all"
         >
           <Home className="w-5 h-5" />
-          VOLTAR AO INÍCIO
+          {t('results.backToLobby')}
         </button>
       </div>
     </div>
