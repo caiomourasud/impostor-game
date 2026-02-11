@@ -1,0 +1,6 @@
+
+{
+  "name": "Quem é o Impostor?",
+  "description": "Um jogo social de dedução onde jogadores tentam descobrir quem entre eles não conhece o tema secreto da rodada.",
+  "requestFramePermissions": []
+}
