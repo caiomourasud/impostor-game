@@ -21,4 +21,3 @@ export const THEMES = [
   "Yoga", "Meditação", "Sonhos", "Memória", "Amizade", "Amor", "Saudade", 
   "Coragem", "Liberdade", "Justiça", "Paz Mundial"
 ];
-];
